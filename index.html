@@ -121,7 +121,14 @@ html.dark .exec-watermark{opacity:.07;filter:brightness(1.6);}
 .exec-next-pill{position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:#2DBDB1;color:#0F1A22;font-size:8px;font-weight:700;padding:2px 6px;border-radius:20px;white-space:nowrap;letter-spacing:.02em;}
 .exec-col-now{background:rgba(45,189,177,.20) !important;}
 #execGridView,#execListView{position:relative;}
-#execGridView::after,#execListView::after{content:'';position:absolute;right:24px;bottom:20px;width:260px;height:190px;background-image:var(--exec-watermark);background-repeat:no-repeat;background-position:center;background-size:contain;opacity:.55;pointer-events:none;z-index:2;}
+#execGridView::after,#execListView::after{content:'';position:absolute;right:26px;bottom:22px;width:320px;height:234px;background-image:var(--exec-watermark);background-repeat:no-repeat;background-position:center;background-size:contain;opacity:.85;pointer-events:none;z-index:2;}
+/* coluna do animal fica fixa enquanto os horários rolam para o lado */
+#execGridInner{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+#execGridInner table{border-collapse:separate;border-spacing:0;}
+#execGridInner .exec-animal{position:sticky;left:0;z-index:3;box-shadow:6px 0 10px -8px rgba(27,40,56,.35);}
+#execGridInner .exec-animal.exec-row-a{background:var(--surface);}
+#execGridInner .exec-animal.exec-row-b{background:var(--row-alt);}
+#execGridInner .exec-animal:not(.exec-row-a):not(.exec-row-b){background:var(--surface);box-shadow:none;}
 @media print{#execGridView::after,#execListView::after{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
 .exec-row-a{background:var(--surface);}
 .exec-row-b{background:var(--row-alt);}
@@ -349,6 +356,10 @@ html.dark .toast{background:var(--accent);color:var(--accent-ink);}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Mapa de Execução <span class="badge">6</span>
     </button>
+    <button class="nav-btn" data-view="tutores">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Tutores &amp; Proprietários
+    </button>
     <button class="nav-btn" data-view="cadastro">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20c0-3 2-4.5 4.2-5.3M4 20h16M8 8.6c0-2 3-6.6 6.5-4.4C17 5.6 16.8 9 15 10.4c1.5.4 3 1.6 3 3.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8.4" cy="9.5" r="2.6"/></svg>
       Cadastro
@@ -376,6 +387,22 @@ html.dark .toast{background:var(--accent);color:var(--accent-ink);}
     <button class="nav-btn" data-view="estoque">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8 12 3l9 5-9 5-9-5Z"/><path d="M3 8v9l9 5 9-5V8M12 13v9"/></svg>
       Farmácia &amp; Estoque <span class="badge">3</span>
+    </button>
+    <button class="nav-btn" data-view="compras">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+      Compras &amp; Pagamentos
+    </button>
+    <button class="nav-btn" data-view="receber">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Contas a Receber
+    </button>
+    <button class="nav-btn" data-view="relatorios">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 3 5-7"/></svg>
+      Relatórios
+    </button>
+    <button class="nav-btn" data-view="equipe">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Gestão de Equipe
     </button>
     <button class="nav-btn" data-view="documentos">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>
@@ -562,6 +589,7 @@ html.dark .toast{background:var(--accent);color:var(--accent-ink);}
 
         <div class="flex gap8 wrap" style="margin-bottom:18px">
           <button class="btn btn-soft btn-sm" onclick="go('cadastro');toast('Edite os dados do cavalo abaixo')">Editar</button>
+          <button class="btn btn-soft btn-sm" onclick="abrirEditarEntrada()">Editar entrada</button>
           <button class="btn btn-soft btn-sm" onclick="darAlta()">Alta</button>
           <button class="btn btn-soft btn-sm" onclick="abrirTransferirBaia()">Transferir de baia</button>
           <button class="btn btn-danger-soft btn-sm" onclick="if(confirm('Confirmar óbito deste animal? Esta ação encerra a internação.')){toast('Óbito registrado — internação encerrada');go('baias')}">Óbito</button>
@@ -573,7 +601,8 @@ html.dark .toast{background:var(--accent);color:var(--accent-ink);}
               <div class="ac-item" onclick="toast('Abrindo agenda de procedimentos…')"><div class="l"><b>Agenda de Procedimentos</b></div></div>
             </div>
           </div>
-          <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="go('prescricao')">+ Prescrição</button>
+          <button class="btn btn-soft btn-sm" style="margin-left:auto" onclick="abrirNovoEvento()">+ Evento</button>
+          <button class="btn btn-primary btn-sm" onclick="go('prescricao')">+ Prescrição</button>
         </div>
 
         <div class="tabs">
@@ -658,7 +687,7 @@ html.dark .toast{background:var(--accent);color:var(--accent-ink);}
             <div class="form-grid g3">
               <div class="field"><label>Nome do cavalo <span class="req">*</span></label><input placeholder="Ex.: Trovão"></div>
               <div class="field"><label>Nascimento</label><input type="date" id="cadastroNascimento" oninput="calcularIdade()"></div>
-              <div class="field"><label for="cadastroIdade">Idade</label><input id="cadastroIdade" placeholder="Calculada automaticamente" readonly style="opacity:.75;background:var(--surface-alt)"></div>
+              <div class="field"><label for="cadastroIdade">Idade</label><input id="cadastroIdade" placeholder="Ex.: 6a 3m ou 8 meses" oninput="marcarIdadeManual()"><div class="hint" id="idadeHint">Preenchida sozinha pela data de nascimento. Sem a data, digite a idade aproximada.</div></div>
             </div>
             <div class="form-grid g3">
               <div class="field"><label>Sexo</label><select><option>Macho</option><option>Fêmea</option><option>Castrado</option></select></div>
@@ -679,13 +708,19 @@ html.dark .toast{background:var(--accent);color:var(--accent-ink);}
 
             <div class="field autocomplete" id="proprietarioField">
               <label>Proprietário <span class="faint" style="font-weight:400">(se diferente do responsável)</span></label>
-              <input id="proprietarioInput" placeholder="Digite o nome do proprietário…" autocomplete="off">
+              <div class="form-grid">
+                <input id="proprietarioInput" placeholder="Digite o nome do proprietário…" autocomplete="off">
+                <input id="proprietarioTelefone" placeholder="Telefone de contato" inputmode="tel">
+              </div>
               <div class="hint">Preencha só se o dono do cavalo for diferente de quem responde por ele no dia a dia (treinador, tratador etc.).</div>
             </div>
 
             <div class="field autocomplete" id="tutorField" style="margin-top:14px">
               <label>Responsável / Tutor <span class="req">*</span></label>
-              <input id="tutorInput" placeholder="Digite o nome do responsável…" oninput="checkTutor(this.value)" autocomplete="off">
+              <div class="form-grid">
+                <input id="tutorInput" placeholder="Digite o nome do responsável…" oninput="checkTutor(this.value)" autocomplete="off">
+                <input id="tutorTelefone" placeholder="Telefone de contato *" inputmode="tel">
+              </div>
               <div class="ac-list" id="tutorList">
                 <div class="ac-item" onclick="pickTutor('Oscar Junqueira')"><div class="l"><b>Oscar Junqueira</b><span>Lins - SP · 2 cavalos</span></div></div>
                 <div class="ac-item" onclick="pickTutor('Layane')"><div class="l"><b>Layane</b><span>Tutor(a) · 1 cavalo</span></div></div>
@@ -808,11 +843,6 @@ html.dark .toast{background:var(--accent);color:var(--accent-ink);}
           </div>
         </div>
 
-        <div class="tabs">
-          <button class="tab active" onclick="setEstoqueMainTab(this,'painel-estoque')">Estoque</button>
-          <button class="tab" onclick="setEstoqueMainTab(this,'painel-compras')">Compras &amp; Pagamentos</button>
-        </div>
-
         <div id="painel-estoque">
           <div class="grid g4" id="estoqueStatsRow" style="margin-bottom:18px"></div>
 
@@ -831,7 +861,19 @@ html.dark .toast{background:var(--accent);color:var(--accent-ink);}
           </div>
         </div>
 
-        <div id="painel-compras" style="display:none">
+      </section>
+
+      <!-- ============ 6b. COMPRAS & PAGAMENTOS (página própria) ============ -->
+      <section class="view" id="view-compras">
+        <div class="view-head">
+          <div><button class="icon-btn" style="margin-bottom:10px" onclick="goBack()" title="Voltar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="eyebrow">Gestão</div><h1>Compras &amp; Pagamentos</h1><p>O que precisa ser comprado e o que precisa ser pago — com fornecedor, vencimento e forma de pagamento.</p></div>
+          <div class="flex gap8">
+            <button class="btn btn-soft" onclick="abrirRegistrarCompra()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8 12 3l9 5-9 5-9-5Z"/><path d="M3 8v9l9 5 9-5V8"/></svg>Registrar compra</button>
+            <button class="btn btn-primary" onclick="abrirNovaContaPagar()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>Nova conta a pagar</button>
+          </div>
+        </div>
+
           <div class="grid g4" id="comprasStatsRow" style="margin-bottom:18px"></div>
 
           <div class="card pad" style="margin-bottom:18px">
@@ -879,6 +921,154 @@ html.dark .toast{background:var(--accent);color:var(--accent-ink);}
               <tbody id="pagamentosTable"></tbody>
             </table></div>
           </div>
+      </section>
+
+      <!-- ============ 6c. CONTAS A RECEBER ============ -->
+      <section class="view" id="view-receber">
+        <div class="view-head">
+          <div><button class="icon-btn" style="margin-bottom:10px" onclick="goBack()" title="Voltar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="eyebrow">Gestão</div><h1>Contas a Receber</h1><p>O que os tutores devem ao hospital — inclusive de animais que já receberam alta.</p></div>
+          <div class="flex gap8">
+            <button class="btn btn-primary" onclick="abrirRegistrarRecebimento()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Registrar recebimento</button>
+          </div>
+        </div>
+
+        <div class="grid g4" id="receberStatsRow" style="margin-bottom:18px"></div>
+
+        <div class="card pad" style="margin-bottom:18px">
+          <div class="section-title">Quem me deve <span class="faint" style="font-weight:400">— em aberto por responsável</span></div>
+          <div id="resumoDevedores"></div>
+        </div>
+
+        <div class="card pad">
+          <div class="flex between wrap" style="gap:10px;margin-bottom:6px">
+            <div class="section-title mb-0">Contas por animal</div>
+            <div class="tabs" style="margin:0">
+              <button class="tab active" onclick="filtrarReceber(this,'todos')">Todos</button>
+              <button class="tab" onclick="filtrarReceber(this,'internado')">Internados</button>
+              <button class="tab" onclick="filtrarReceber(this,'alta')">Com alta</button>
+              <button class="tab" onclick="filtrarReceber(this,'devendo')">Em aberto</button>
+            </div>
+          </div>
+          <div class="table-scroll"><table>
+            <tr><th>Animal</th><th>Responsável</th><th>Situação</th><th>Total</th><th>Pago</th><th>Em aberto</th><th></th></tr>
+            <tbody id="receberTable"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+
+
+
+      <!-- ============ TUTORES & PROPRIETÁRIOS ============ -->
+      <section class="view" id="view-tutores">
+        <div class="view-head">
+          <div><button class="icon-btn" style="margin-bottom:10px" onclick="goBack()" title="Voltar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="eyebrow">Internação</div><h1>Tutores &amp; Proprietários</h1><p>Cadastro completo de quem responde pelos animais e de quem é o dono.</p></div>
+          <div class="flex gap8">
+            <button class="btn btn-primary" onclick="abrirNovaPessoa()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>Nova pessoa</button>
+          </div>
+        </div>
+
+        <div class="grid g4" id="tutoresStatsRow" style="margin-bottom:18px"></div>
+
+        <div class="card pad">
+          <div class="flex between wrap" style="gap:10px;margin-bottom:12px">
+            <div class="section-title mb-0">Cadastro</div>
+            <input id="tutoresBusca" placeholder="Buscar por nome, CPF, cidade ou telefone…" oninput="renderTutores()" style="flex:1;max-width:340px;border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:9px 12px;font-size:13px;color:var(--ink)">
+          </div>
+          <div class="tabs">
+            <button class="tab active" onclick="filtrarTutores(this,'todos')">Todos</button>
+            <button class="tab" onclick="filtrarTutores(this,'responsavel')">Responsáveis</button>
+            <button class="tab" onclick="filtrarTutores(this,'proprietario')">Proprietários</button>
+          </div>
+          <div class="table-scroll"><table>
+            <tr><th>Nome</th><th>Documento</th><th>Contato</th><th>Cidade</th><th>Papel</th><th>Animais</th><th></th></tr>
+            <tbody id="tutoresTable"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ RELATÓRIOS ============ -->
+      <section class="view" id="view-relatorios">
+        <div class="view-head">
+          <div><button class="icon-btn" style="margin-bottom:10px" onclick="goBack()" title="Voltar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="eyebrow">Gestão</div><h1>Relatórios</h1><p>Como o hospital gastou, recebeu e consumiu no período.</p></div>
+          <div class="flex gap8">
+            <select id="relPeriodo" onchange="renderRelatorios()" style="border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:10px 12px;font-size:13px;color:var(--ink)">
+              <option value="30">Últimos 30 dias</option>
+              <option value="90">Últimos 3 meses</option>
+              <option value="365">Últimos 12 meses</option>
+            </select>
+            <button class="btn btn-soft" onclick="toast('Exportando relatório em PDF…')">Exportar PDF</button>
+          </div>
+        </div>
+
+        <div class="grid g4" id="relStatsRow" style="margin-bottom:18px"></div>
+
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px">
+          <div class="card pad">
+            <div class="section-title">Gastos por categoria</div>
+            <div id="relGastosCategoria"></div>
+          </div>
+          <div class="card pad">
+            <div class="section-title">Formas de pagamento <span class="faint" style="font-weight:400">— o que já foi pago</span></div>
+            <div id="relFormas"></div>
+          </div>
+        </div>
+
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px">
+          <div class="card pad">
+            <div class="section-title">Exames — internos x externos</div>
+            <div id="relExames"></div>
+          </div>
+          <div class="card pad">
+            <div class="section-title">Pago x a pagar <span class="faint" style="font-weight:400">— por mês</span></div>
+            <div class="flex" style="gap:12px;align-items:flex-end" id="relMeses"></div>
+          </div>
+        </div>
+
+        <div class="card pad">
+          <div class="section-title">Materiais e medicamentos mais usados <span class="faint" style="font-weight:400">— por baixa no estoque</span></div>
+          <div class="table-scroll"><table>
+            <tr><th>Produto</th><th>Categoria</th><th>Baixas</th><th>Consumo</th><th>Custo no período</th></tr>
+            <tbody id="relConsumo"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ GESTÃO DE EQUIPE ============ -->
+      <section class="view" id="view-equipe">
+        <div class="view-head">
+          <div><button class="icon-btn" style="margin-bottom:10px" onclick="goBack()" title="Voltar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="eyebrow">Gestão</div><h1>Gestão de Equipe</h1><p>Quem tem acesso a quê. Apenas administradores podem alterar privilégios.</p></div>
+          <div class="flex gap8">
+            <button class="btn btn-primary" onclick="abrirNovoMembro()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>Novo membro</button>
+          </div>
+        </div>
+
+        <div id="equipeAvisoAdmin" class="card pad" style="margin-bottom:18px;border-color:color-mix(in srgb, var(--warn) 45%, var(--line));background:var(--warn-soft)">
+          <div class="flex gap8" style="align-items:flex-start">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--warn)" stroke-width="2" style="flex:none;margin-top:2px"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+            <div style="font-size:13px">Você está vendo esta tela como <b>Administrador</b>. Somente esse perfil pode criar membros e alterar privilégios — os demais nem enxergam este item no menu.</div>
+          </div>
+        </div>
+
+        <div class="card pad" style="margin-bottom:18px">
+          <div class="section-title">Equipe</div>
+          <div class="table-scroll"><table>
+            <tr><th>Membro</th><th>Função</th><th>Acessos</th><th>Situação</th><th></th></tr>
+            <tbody id="equipeTable"></tbody>
+          </table></div>
+        </div>
+
+        <div class="card pad">
+          <div class="section-title">O que cada função acessa</div>
+          <p class="hint" style="margin-top:0">Matriz de privilégios do sistema. Alterações valem para todos os membros daquela função.</p>
+          <div class="table-scroll"><table>
+            <tr id="matrizHead"></tr>
+            <tbody id="matrizBody"></tbody>
+          </table></div>
         </div>
       </section>
 
@@ -1016,6 +1206,101 @@ html.dark .toast{background:var(--accent);color:var(--accent-ink);}
 </div>
 
 <!-- ===================== MODALS ===================== -->
+<div class="overlay" role="dialog" aria-modal="true" id="modal-pessoa" onclick="if(event.target===this)closeModal(this.id)">
+  <div class="modal wide">
+    <div class="modal-head"><h3 id="pessoaTitulo">Nova pessoa</h3><button class="x-btn" onclick="closeModal('modal-pessoa')" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="modal-body">
+      <div class="form-grid g3">
+        <div class="field"><label for="pessoaNome">Nome completo <span class="req">*</span></label><input id="pessoaNome" placeholder="Ex.: Ricardo Silva Duarte"></div>
+        <div class="field"><label for="pessoaCpf">CPF / CNPJ</label><input id="pessoaCpf" placeholder="000.000.000-00"></div>
+        <div class="field"><label for="pessoaRg">RG</label><input id="pessoaRg" placeholder="Opcional"></div>
+      </div>
+
+      <div class="section-title" style="margin-top:18px">Contato</div>
+      <div class="form-grid g3">
+        <div class="field"><label for="pessoaFone">Telefone / WhatsApp <span class="req">*</span></label><input id="pessoaFone" inputmode="tel" placeholder="(44) 99731-6035"></div>
+        <div class="field"><label for="pessoaFone2">Telefone alternativo</label><input id="pessoaFone2" inputmode="tel" placeholder="Opcional"></div>
+        <div class="field"><label for="pessoaEmail">E-mail</label><input id="pessoaEmail" type="email" placeholder="Opcional"></div>
+      </div>
+
+      <div class="section-title" style="margin-top:18px">Endereço</div>
+      <div class="form-grid g3">
+        <div class="field"><label for="pessoaCep">CEP</label><input id="pessoaCep" placeholder="87203-020"></div>
+        <div class="field" style="grid-column:span 2"><label for="pessoaEndereco">Endereço</label><input id="pessoaEndereco" placeholder="Rua Primavera, 160"></div>
+      </div>
+      <div class="form-grid g3">
+        <div class="field"><label for="pessoaBairro">Bairro</label><input id="pessoaBairro" placeholder="Ex.: Residencial Verde"></div>
+        <div class="field"><label for="pessoaCidade">Cidade</label><input id="pessoaCidade" placeholder="Cianorte"></div>
+        <div class="field"><label for="pessoaUf">UF</label>
+          <select id="pessoaUf"><option value="">—</option><option>PR</option><option>SP</option><option>MG</option><option>MS</option><option>SC</option><option>RS</option><option>GO</option><option>RJ</option><option>BA</option></select>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:18px">Outras informações</div>
+      <div class="form-grid g3">
+        <div class="field"><label for="pessoaPapel">Papel</label>
+          <select id="pessoaPapel"><option value="responsavel">Responsável / Tutor</option><option value="proprietario">Proprietário</option><option value="ambos">Proprietário e responsável</option></select>
+        </div>
+        <div class="field"><label for="pessoaNascimento">Nascimento</label><input id="pessoaNascimento" type="date"></div>
+        <div class="field"><label for="pessoaProfissao">Profissão</label><input id="pessoaProfissao" placeholder="Opcional"></div>
+      </div>
+      <div class="field" style="margin-top:12px"><label for="pessoaObs">Observações</label><input id="pessoaObs" placeholder="Ex.: prefere contato por WhatsApp à tarde"></div>
+      <label class="flex gap8" style="font-size:13px;margin-top:12px"><input type="checkbox" id="pessoaNaoEnviar" style="width:16px;height:16px;accent-color:var(--accent)"> Não enviar mensagens automáticas</label>
+    </div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal('modal-pessoa')">Cancelar</button><button class="btn btn-primary" onclick="salvarPessoa()">Salvar pessoa</button></div>
+  </div>
+</div>
+
+<div class="overlay" role="dialog" aria-modal="true" id="modal-novo-evento" onclick="if(event.target===this)closeModal(this.id)">
+  <div class="modal">
+    <div class="modal-head"><h3>Registrar evento</h3><button class="x-btn" onclick="closeModal('modal-novo-evento')" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="modal-body">
+      <p style="margin:0 0 14px" id="eventoAnimalLabel" class="faint"></p>
+      <div class="form-grid">
+        <div class="field"><label for="eventoTipo">Tipo de evento</label>
+          <select id="eventoTipo" onchange="aoTrocarTipoEvento()">
+            <option>Consulta</option><option>Endoscopia</option><option>Ultrassonografia</option>
+            <option>Raio-X</option><option>Cirurgia</option><option>Curativo</option>
+            <option>Sedação</option><option>Fluidoterapia</option><option>Procedimento</option>
+            <option>Ocorrência clínica</option><option>Outro</option>
+          </select>
+        </div>
+        <div class="field"><label for="eventoResponsavel">Responsável</label>
+          <select id="eventoResponsavel"><option>Elaine</option><option>Rolim</option><option>Layane</option><option>Equipe</option></select>
+        </div>
+      </div>
+      <div class="form-grid" style="margin-top:12px">
+        <div class="field"><label for="eventoData">Data <span class="req">*</span></label><input id="eventoData" type="date"></div>
+        <div class="field"><label for="eventoHora">Hora <span class="req">*</span></label><input id="eventoHora" type="time"></div>
+      </div>
+      <p class="hint" style="margin-top:8px">Pode lançar retroativo: informe a data e a hora em que o evento realmente aconteceu.</p>
+      <div class="field" style="margin-top:12px"><label for="eventoDescricao">Descrição</label><input id="eventoDescricao" placeholder="Ex.: Endoscopia de trato respiratório — sem alterações"></div>
+      <hr class="rule">
+      <label class="flex gap8" style="font-size:13px"><input type="checkbox" id="eventoCobrar" checked onchange="aoTrocarTipoEvento()" style="width:16px;height:16px;accent-color:var(--accent)"> Lançar na conta do cavalo</label>
+      <div class="form-grid" style="margin-top:12px" id="eventoValorBox">
+        <div class="field"><label for="eventoValor">Valor (R$)</label><input id="eventoValor" type="number" min="0" step="0.01" placeholder="0,00"></div>
+        <div class="field"><label>&nbsp;</label><div class="faint" style="padding-top:10px;font-size:12.5px" id="eventoValorHint">Valor sugerido pela tabela do procedimento.</div></div>
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal('modal-novo-evento')">Cancelar</button><button class="btn btn-primary" onclick="salvarEvento()">Registrar evento</button></div>
+  </div>
+</div>
+
+<div class="overlay" role="dialog" aria-modal="true" id="modal-editar-entrada" onclick="if(event.target===this)closeModal(this.id)">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-head"><h3>Data de entrada</h3><button class="x-btn" onclick="closeModal('modal-editar-entrada')" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="modal-body">
+      <p style="margin:0 0 14px" id="entradaAnimalLabel" class="faint"></p>
+      <div class="form-grid">
+        <div class="field"><label for="entradaData">Data de entrada</label><input id="entradaData" type="date"></div>
+        <div class="field"><label for="entradaHora">Hora</label><input id="entradaHora" type="time"></div>
+      </div>
+      <p class="hint" style="margin-top:10px">Use para corrigir internações lançadas depois que o animal já estava no hospital. O tempo internado e as diárias são recalculados a partir desta data.</p>
+    </div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal('modal-editar-entrada')">Cancelar</button><button class="btn btn-primary" onclick="salvarEntrada()">Salvar entrada</button></div>
+  </div>
+</div>
+
 <div class="overlay" role="dialog" aria-modal="true" id="modal-confirmar-acao" onclick="if(event.target===this)closeModal(this.id)">
   <div class="modal" style="max-width:440px" role="alertdialog" aria-labelledby="confirmTitulo" aria-describedby="confirmMensagem">
     <div class="modal-head"><h3 id="confirmTitulo">Confirmar</h3><button class="x-btn" onclick="closeModal('modal-confirmar-acao')" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
@@ -1152,6 +1437,21 @@ html.dark .toast{background:var(--accent);color:var(--accent-ink);}
   </div>
 </div>
 
+<div class="overlay" role="dialog" aria-modal="true" id="modal-registrar-recebimento" onclick="if(event.target===this)closeModal(this.id)">
+  <div class="modal">
+    <div class="modal-head"><h3>Registrar recebimento</h3><button class="x-btn" onclick="closeModal('modal-registrar-recebimento')" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="modal-body">
+      <div class="field"><label for="recebAnimal">Animal / conta</label><select id="recebAnimal" onchange="atualizarSaldoReceb()"></select></div>
+      <p class="hint" id="recebSaldoInfo" style="margin-top:8px"></p>
+      <div class="form-grid" style="margin-top:12px">
+        <div class="field"><label for="recebValor">Valor recebido (R$)</label><input id="recebValor" type="number" min="0" step="0.01" placeholder="0,00"></div>
+        <div class="field"><label for="recebForma">Forma</label><select id="recebForma"><option>Pix</option><option>Dinheiro</option><option>Cartão</option><option>Boleto</option><option>Transferência</option></select></div>
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal('modal-registrar-recebimento')">Cancelar</button><button class="btn btn-primary" onclick="confirmarRecebimento()">Registrar recebimento</button></div>
+  </div>
+</div>
+
 <div class="overlay" role="dialog" aria-modal="true" id="modal-nova-conta-pagar" onclick="if(event.target===this)closeModal(this.id)">
   <div class="modal">
     <div class="modal-head"><h3>Nova conta a pagar</h3><button class="x-btn" onclick="closeModal('modal-nova-conta-pagar')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
@@ -1195,7 +1495,14 @@ html.dark .toast{background:var(--accent);color:var(--accent-ink);}
         <label>Buscar cavalo já cadastrado</label>
         <input placeholder="Digite o nome do cavalo…">
       </div>
-      <p class="muted" style="font-size:12.5px;margin-top:10px">Ou <a href="#" style="color:var(--accent)" onclick="irCadastrarParaInternar();return false;">cadastre um cavalo novo</a>.</p>
+      <div class="flex between" style="margin-top:14px;gap:10px;align-items:center">
+        <span class="faint" style="font-size:12.5px">Cavalo ainda não cadastrado?</span>
+        <button class="btn btn-soft btn-sm" onclick="irCadastrarParaInternar()">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+          Cadastrar cavalo
+        </button>
+      </div>
+      <p class="hint" style="margin-top:10px">O cadastro abre já vinculado a esta baia — ao salvar, o cavalo é internado aqui automaticamente.</p>
     </div>
     <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal('modal-internar')">Cancelar</button><button class="btn btn-primary" onclick="closeModal('modal-internar');openModal('modal-confirmar-internacao')">Internar</button></div>
   </div>
@@ -1282,7 +1589,15 @@ html.dark .toast{background:var(--accent);color:var(--accent-ink);}
     <div class="modal-head"><h3>Cadastrar exame</h3><button class="x-btn" onclick="closeModal('modal-novo-tipo-exame')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
     <div class="modal-body">
       <p class="muted" style="margin-top:0;font-size:13px">Cadastre um tipo de exame que ainda não existe na lista, para que ele já apareça pronto para uso da próxima vez — sem precisar vincular a um cavalo agora.</p>
-      <div class="field"><label for="novoTipoExameNome">Nome do exame</label><input id="novoTipoExameNome" placeholder="Ex.: Ultrassom Abdominal"></div>
+      <div class="field"><label for="novoTipoExameNome">Nome do exame <span class="req">*</span></label><input id="novoTipoExameNome" placeholder="Ex.: Ultrassom Abdominal"></div>
+      <div class="form-grid" style="margin-top:12px">
+        <div class="field"><label for="novoTipoExameValor">Valor cobrado (R$)</label><input id="novoTipoExameValor" type="number" min="0" step="0.01" placeholder="0,00"></div>
+        <div class="field"><label for="novoTipoExameLocal">Onde é realizado</label>
+          <select id="novoTipoExameLocal"><option value="interno">Interno — na própria estrutura</option><option value="externo">Externo — laboratório parceiro</option></select>
+        </div>
+      </div>
+      <div class="field" style="margin-top:12px"><label for="novoTipoExameLab">Laboratório parceiro <span class="faint" style="font-weight:400">(se externo)</span></label><input id="novoTipoExameLab" placeholder="Ex.: Lab Diagnóstico Equino"></div>
+      <p class="hint" style="margin-top:10px">O valor é usado para lançar o exame na conta do cavalo automaticamente ao ser solicitado.</p>
     </div>
     <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal('modal-novo-tipo-exame')">Cancelar</button><button class="btn btn-primary" onclick="salvarNovoTipoExame()">Cadastrar exame</button></div>
   </div>
@@ -1500,10 +1815,14 @@ function go(view, fromBack){
   if(view==='estoque' && typeof renderEstoqueTable==='function'){
     // sempre recarrega os dados reais do estoque ao abrir a tela — nunca mostra número desatualizado
     renderEstoqueTable();
-    if(document.getElementById('painel-compras') && document.getElementById('painel-compras').style.display!=='none'){
-      renderAComprar(); renderPagamentos(); renderComprasStats();
-    }
   }
+  if(view==='tutores' && typeof renderTutores==='function'){ renderTutores(); }
+  if(view==='equipe' && typeof renderEquipe==='function'){ renderEquipe(); }
+  if(view==='relatorios' && typeof renderRelatorios==='function'){ renderRelatorios(); }
+  if(view==='compras' && typeof renderPagamentos==='function'){
+    renderAComprar(); renderPagamentos(); renderComprasStats(); renderProjecao();
+  }
+  if(view==='receber' && typeof renderReceber==='function'){ renderReceber(); }
   document.querySelector('.content').scrollTo?.(0,0);
   window.scrollTo(0,0);
 }
@@ -1575,10 +1894,21 @@ function toast(msg){
 
 // ---------- CADASTRO: tutor lookup ----------
 const knownTutors = ['Oscar Junqueira','Layane','Andressa Kasprowicz Barros','Diego Protz','Wilson de Matos Silva'];
+function marcarIdadeManual(){
+  const out = document.getElementById('cadastroIdade');
+  out.dataset.manual = out.value.trim() ? '1' : '';
+  const hint = document.getElementById('idadeHint');
+  if(hint) hint.textContent = out.dataset.manual
+    ? 'Idade informada manualmente — se preencher o nascimento, ele passa a mandar.'
+    : 'Preenchida sozinha pela data de nascimento. Sem a data, digite a idade aproximada.';
+}
 function calcularIdade(){
   const val = document.getElementById('cadastroNascimento').value;
   const out = document.getElementById('cadastroIdade');
-  if(!val){ out.value=''; return; }
+  const hint = document.getElementById('idadeHint');
+  if(!val){ return; }   // sem data: preserva o que foi digitado à mão
+  out.dataset.manual = '';
+  if(hint) hint.textContent = 'Calculada pela data de nascimento.';
   const nasc = new Date(val+'T00:00:00');
   const hoje = new Date();
   let anos = hoje.getFullYear() - nasc.getFullYear();
@@ -1851,7 +2181,7 @@ function renderExecGrid(filterQuery){
   const q = (filterQuery||'').toLowerCase();
   const rows = q ? execGridData.filter(r=>r.name.toLowerCase().includes(q)) : execGridData;
   let html = '<div style="display:grid;grid-template-columns:190px repeat(24,32px);gap:0;min-width:970px">';
-  html += '<div></div>';
+  html += '<div class="exec-animal"></div>';
   for(let h=0; h<24; h++){
     const isNow = h===meta.now;
     html += '<div class="mono exec-hdr'+(isNow?' exec-col-now':'')+'" style="font-size:10px;text-align:center;color:'+(isNow?'#0F1A22':'var(--ink-faint)')+';padding-bottom:8px;position:relative;font-weight:'+(isNow?'700':'400')+'">'+(isNow?'<span class="exec-next-pill">RODADA ATUAL</span>':'')+String(h).padStart(2,'0')+'</div>';
@@ -1864,7 +2194,7 @@ function renderExecGrid(filterQuery){
     const dotTypes = row.dots.map(d=>classifyDot(d, meta));
     const hasAtual = dotTypes.includes('atual');
     const hasAtrasado = dotTypes.includes('atrasado');
-    html += '<div class="'+rowCls+'" style="border-top:1px solid var(--line-soft);padding:8px 8px 8px 10px;cursor:pointer" onclick="openFicha(\''+row.id+'\')">'
+    html += '<div class="'+rowCls+' exec-animal" style="border-top:1px solid var(--line-soft);padding:8px 8px 8px 10px;cursor:pointer" onclick="openFicha(\''+row.id+'\')">'
       + '<div class="flex between" style="gap:6px"><b style="font-size:13px">'+row.name+' <span class="faint" style="font-weight:400">('+row.cod+')</span></b><span class="faint mono" style="font-size:9.5px;white-space:nowrap">'+row.baia+'</span></div>'
       + '<div class="faint" style="font-size:10.5px;font-style:italic">'+row.meta+'</div>'
       + (hasAtrasado ? '<span class="exec-badge exec-badge-atrasado">ATRASADO</span>' : (hasAtual ? '<span class="exec-badge exec-badge-atual">RODADA ATUAL</span>' : ''))
@@ -1947,7 +2277,7 @@ function globalSearch(val){
     if(p.fornecedor.toLowerCase().includes(q) || (p.descricao||'').toLowerCase().includes(q)){
       res.push({ grupo:'Conta a pagar', titulo:p.fornecedor, sub:p.descricao+' · vence '+Fmt.data(p.vencimento),
         tag: Fmt.dinheiro(p.valor), tagCls:'tag-soft',
-        acao:"go('estoque');setTimeout(()=>{const t=document.querySelector('#view-estoque .tabs .tab:nth-child(2)'); if(t)t.click();},60)" });
+        acao:"go('compras')" });
     }
   });
 
@@ -2337,14 +2667,6 @@ function aplicarFiltroEstoque(){
     tr.style.display = (estoqueFiltroAtivo==='all' || cats.includes(estoqueFiltroAtivo)) ? '' : 'none';
   });
 }
-function setEstoqueMainTab(el, key){
-  const wrap = el.parentElement;
-  wrap.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('painel-estoque').style.display = key==='painel-estoque' ? 'block' : 'none';
-  document.getElementById('painel-compras').style.display = key==='painel-compras' ? 'block' : 'none';
-  if(key==='painel-compras'){ renderAComprar(); renderPagamentos(); renderComprasStats(); renderProjecao(); }
-}
 function salvarNovoItem(){
   const nome = document.getElementById('novoItemNome').value.trim();
   const principio = document.getElementById('novoItemPrincipio').value.trim() || '—';
@@ -2508,6 +2830,137 @@ function renderPagamentos(){
       + '<td style="white-space:nowrap">'+acoes+'</td></tr>';
   }).join('');
   renderResumoFornecedores();
+}
+
+// ================= CONTAS A RECEBER =================
+// A dívida do tutor não pode sumir quando o animal recebe alta.
+let receberFiltro = 'todos';
+function contaDoAnimal(id){
+  const h = horses[id];
+  const c = h.conta || {saldo:'0,00', pago:'0,00'};
+  const total = parseMoneyBR(c.saldo);
+  const pago  = parseMoneyBR(c.pago);
+  return { total, pago, aberto: Math.max(0, total - pago) };
+}
+function filtrarReceber(el, key){
+  const wrap = el.parentElement;
+  wrap.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  receberFiltro = key;
+  renderReceber();
+}
+function renderReceber(){
+  const body = document.getElementById('receberTable');
+  if(!body) return;
+  let itens = Object.entries(horses).map(([id,h])=>({id, h, c:contaDoAnimal(id)}));
+  if(receberFiltro==='internado') itens = itens.filter(x=>!x.h.alta);
+  else if(receberFiltro==='alta') itens = itens.filter(x=>x.h.alta);
+  else if(receberFiltro==='devendo') itens = itens.filter(x=>x.c.aberto>0);
+  // quem tem alta e ainda deve aparece primeiro: é o risco de esquecer de cobrar
+  itens.sort((a,b)=>{
+    const pa = (a.h.alta && a.c.aberto>0)?0:1, pb=(b.h.alta && b.c.aberto>0)?0:1;
+    if(pa!==pb) return pa-pb;
+    return b.c.aberto - a.c.aberto;
+  });
+  if(itens.length===0){
+    body.innerHTML = linhaVazia(7,'Nenhuma conta neste filtro','Ajuste o filtro acima para ver outras contas.');
+    renderResumoDevedores(); return;
+  }
+  body.innerHTML = itens.map(({id,h,c})=>{
+    const alta = !!h.alta;
+    const risco = alta && c.aberto>0;
+    const situacao = alta
+      ? '<span class="tag tag-soft">alta</span>'+(risco?'<div class="faint" style="font-size:10px;color:var(--bad);font-weight:700">cobrar</div>':'')
+      : '<span class="tag tag-good">internado</span><div class="faint" style="font-size:10px">Baia '+h.box+'</div>';
+    const acao = c.aberto>0
+      ? '<button class="btn-sm btn-soft" style="border-radius:8px" onclick="abrirRegistrarRecebimento(\''+id+'\')">Receber</button>'
+      : '<span class="tag tag-good">quitado</span>';
+    return '<tr class="row-hover"'+(risco?' style="background:var(--bad-soft)"':'')+'>'
+      + '<td><b>'+h.name+'</b><div class="faint" style="font-size:11px">'+h.meta+'</div></td>'
+      + '<td>'+h.tutor+'</td>'
+      + '<td>'+situacao+'</td>'
+      + '<td class="mono">'+fmtMoney(c.total)+'</td>'
+      + '<td class="mono">'+fmtMoney(c.pago)+'</td>'
+      + '<td class="mono"><b'+(c.aberto>0?' style="color:var(--bad)"':'')+'>'+fmtMoney(c.aberto)+'</b></td>'
+      + '<td>'+acao+'</td></tr>';
+  }).join('');
+  renderResumoDevedores(); renderReceberStats();
+}
+function renderResumoDevedores(){
+  const wrap = document.getElementById('resumoDevedores');
+  if(!wrap) return;
+  const porTutor = {};
+  Object.entries(horses).forEach(([id,h])=>{
+    const c = contaDoAnimal(id);
+    if(c.aberto<=0) return;
+    if(!porTutor[h.tutor]) porTutor[h.tutor] = {total:0, n:0, comAlta:0};
+    porTutor[h.tutor].total += c.aberto;
+    porTutor[h.tutor].n++;
+    if(h.alta) porTutor[h.tutor].comAlta++;
+  });
+  const lista = Object.entries(porTutor).sort((a,b)=>b[1].total-a[1].total);
+  if(lista.length===0){ wrap.innerHTML = '<p class="faint" style="font-size:13px;margin:0">Nenhuma conta em aberto.</p>'; return; }
+  const maior = lista[0][1].total;
+  wrap.innerHTML = lista.map(([nome,d])=>{
+    const pct = maior>0 ? Math.round(d.total/maior*100) : 0;
+    return '<div style="margin-bottom:11px">'
+      + '<div class="flex between" style="font-size:12.5px;margin-bottom:3px">'
+      + '<span><b>'+nome+'</b> <span class="faint">· '+d.n+' animal'+(d.n>1?'is':'')
+      + (d.comAlta>0?' · <span style="color:var(--bad);font-weight:700">'+d.comAlta+' já com alta</span>':'')+'</span></span>'
+      + '<span class="mono"><b>'+fmtMoney(d.total)+'</b></span></div>'
+      + '<div style="height:6px;border-radius:4px;background:var(--surface-alt);overflow:hidden">'
+      + '<div style="height:100%;width:'+pct+'%;background:'+(d.comAlta>0?'var(--bad)':'var(--accent)')+'"></div></div></div>';
+  }).join('');
+}
+function renderReceberStats(){
+  const wrap = document.getElementById('receberStatsRow');
+  if(!wrap) return;
+  const todos = Object.entries(horses).map(([id,h])=>({h, c:contaDoAnimal(id)}));
+  const aberto = todos.reduce((s,x)=>s+x.c.aberto,0);
+  const recebido = todos.reduce((s,x)=>s+x.c.pago,0);
+  const comAlta = todos.filter(x=>x.h.alta && x.c.aberto>0);
+  const valorAlta = comAlta.reduce((s,x)=>s+x.c.aberto,0);
+  const internados = todos.filter(x=>!x.h.alta && x.c.aberto>0).length;
+  wrap.innerHTML =
+    '<div class="stat"><div class="n">'+fmtMoney(aberto)+'</div><div class="l">Total a receber</div></div>'
+    + '<div class="stat'+(comAlta.length>0?' bad':'')+'"><div class="n">'+fmtMoney(valorAlta)+'</div><div class="l">De animais com alta · '+comAlta.length+' conta'+(comAlta.length!==1?'s':'')+'</div></div>'
+    + '<div class="stat"><div class="n">'+internados+'</div><div class="l">Internados com saldo em aberto</div></div>'
+    + '<div class="stat"><div class="n">'+fmtMoney(recebido)+'</div><div class="l">Já recebido</div></div>';
+}
+function abrirRegistrarRecebimento(id){
+  const sel = document.getElementById('recebAnimal');
+  const devendo = Object.entries(horses).filter(([k,h])=>contaDoAnimal(k).aberto>0);
+  sel.innerHTML = devendo.length===0
+    ? '<option value="">Nenhuma conta em aberto</option>'
+    : devendo.map(([k,h])=>'<option value="'+k+'">'+h.name+' — '+h.tutor+(h.alta?' (com alta)':'')+'</option>').join('');
+  if(id) sel.value = id;
+  document.getElementById('recebValor').value='';
+  atualizarSaldoReceb();
+  openModal('modal-registrar-recebimento');
+}
+function atualizarSaldoReceb(){
+  const id = document.getElementById('recebAnimal').value;
+  const info = document.getElementById('recebSaldoInfo');
+  if(!id){ info.textContent=''; return; }
+  const c = contaDoAnimal(id);
+  info.innerHTML = 'Em aberto: <b>'+fmtMoney(c.aberto)+'</b> · total '+fmtMoney(c.total)+' · já pago '+fmtMoney(c.pago);
+  document.getElementById('recebValor').value = c.aberto.toFixed(2);
+}
+function confirmarRecebimento(){
+  const id = document.getElementById('recebAnimal').value;
+  const valor = Math.max(0, parseFloat(document.getElementById('recebValor').value||'0'));
+  const forma = document.getElementById('recebForma').value;
+  const h = horses[id];
+  if(!h || valor<=0){ toast('Informe o valor recebido'); return; }
+  const c = contaDoAnimal(id);
+  const aplicado = Math.min(valor, c.aberto);
+  h.conta.pago = formatMoneyBR(c.pago + aplicado);
+  h.conta.devedor = formatMoneyBR(Math.max(0, c.total - (c.pago + aplicado)));
+  h.timeline.unshift({ hora:'—', tipo:'soft', titulo:'Recebimento registrado', detalhe:fmtMoney(aplicado)+' via '+forma });
+  renderReceber();
+  if(window._currentFichaId===id) openFicha(id);
+  closeModal('modal-registrar-recebimento');
+  toast('Recebimento de '+fmtMoney(aplicado)+' registrado para '+h.name);
 }
 
 // ---------- A QUEM DEVO: total em aberto por fornecedor ----------
@@ -2809,6 +3262,7 @@ function baixarEstoquePorId(produtoId, qtd){
   const item = estoqueData.find(i=>i.id===produtoId);
   if(!item) return null;
   item.estoque = Math.max(0, item.estoque - qtd);
+  if(typeof registrarMovimento==='function') registrarMovimento(item.id, qtd, 'execucao');
   const visivel = document.getElementById('view-estoque') && document.getElementById('view-estoque').classList.contains('active');
   if(visivel) renderEstoqueTable();
   return item;
@@ -3219,21 +3673,21 @@ function renderExameFisicoList(id){
 // ---------- EXAMES: agrupados por animal ----------
 const examesData = [
   { animal:'Trovão', baia:'Baia 01', exams:[
-      { tipo:'Hemograma completo', status:'aguardando', data:'28/07', arquivo:'hemograma_trovao.pdf' },
-      { tipo:'Raio-X — Membro anterior', status:'aguardando', data:'29/07', arquivo:'raiox_trovao.pdf' },
+      { tipo:'Hemograma completo', status:'aguardando', data:'28/07', arquivo:'hemograma_trovao.pdf', local:'interno' },
+      { tipo:'Raio-X — Membro anterior', status:'aguardando', data:'29/07', arquivo:'raiox_trovao.pdf', local:'interno' },
     ]},
   { animal:'Estrela', baia:'Baia 07', exams:[
-      { tipo:'Endoscopia — trato respiratório', status:'anexado', data:'25/07', arquivo:'endoscopia_estrela_25-07.pdf' },
+      { tipo:'Endoscopia — trato respiratório', status:'anexado', data:'25/07', arquivo:'endoscopia_estrela_25-07.pdf', local:'externo' },
     ]},
   { animal:'Coronel', baia:'Baia 03', exams:[
-      { tipo:'Bioquímico', status:'anexado', data:'19/07', arquivo:'bioquimico_coronel.pdf' },
-      { tipo:'Parasitológico de Fezes', status:'anexado', data:'19/07', arquivo:'parasito_fezes_coronel.pdf' },
+      { tipo:'Bioquímico', status:'anexado', data:'19/07', arquivo:'bioquimico_coronel.pdf', local:'interno' },
+      { tipo:'Parasitológico de Fezes', status:'anexado', data:'19/07', arquivo:'parasito_fezes_coronel.pdf', local:'interno' },
     ]},
   { animal:'Ventania', baia:'Baia 06', exams:[
-      { tipo:'Bacteriológico — secreção nasal', status:'aguardando', data:'30/07', arquivo:'bacteriologico_ventania.pdf' },
+      { tipo:'Bacteriológico — secreção nasal', status:'aguardando', data:'30/07', arquivo:'bacteriologico_ventania.pdf', local:'externo' },
     ]},
   { animal:'Rajado', baia:'Baia 11', exams:[
-      { tipo:'Parasitológico de Pele', status:'anexado', data:'14/07', arquivo:'parasito_pele_rajado.pdf' },
+      { tipo:'Parasitológico de Pele', status:'anexado', data:'14/07', arquivo:'parasito_pele_rajado.pdf', local:'interno' },
     ]},
 ];
 let examesFiltroTipo = 'Todos';
@@ -3268,6 +3722,423 @@ function renderExames(){
   }).join('');
 }
 renderExames();
+
+
+
+// ================= EVENTOS DO HISTÓRICO E DATA DE ENTRADA =================
+// Tabela de preços por tipo de evento — alimenta o lançamento na conta
+const precosEvento = {
+  'Consulta':180, 'Endoscopia':450, 'Ultrassonografia':320, 'Raio-X':280,
+  'Cirurgia':1800, 'Curativo':90, 'Sedação':220, 'Fluidoterapia':160,
+  'Procedimento':150, 'Ocorrência clínica':0, 'Outro':0,
+};
+function aoTrocarTipoEvento(){
+  const tipo = document.getElementById('eventoTipo').value;
+  const cobrar = document.getElementById('eventoCobrar').checked;
+  document.getElementById('eventoValorBox').style.display = cobrar ? 'grid' : 'none';
+  const campo = document.getElementById('eventoValor');
+  if(cobrar && !campo.dataset.editado){
+    const p = precosEvento[tipo];
+    campo.value = p ? p.toFixed(2) : '';
+  }
+  document.getElementById('eventoValorHint').textContent = precosEvento[tipo]
+    ? 'Valor sugerido pela tabela de '+tipo+'. Pode ser alterado.'
+    : 'Sem valor de tabela — informe se houver cobrança.';
+}
+function abrirNovoEvento(){
+  const h = horses[window._currentFichaId];
+  if(!h) return;
+  document.getElementById('eventoAnimalLabel').innerHTML = '<b>'+h.name+'</b> · '+h.meta+' · Baia '+h.box;
+  const agora = new Date();
+  document.getElementById('eventoData').value = Fmt.dataISO(agora);
+  document.getElementById('eventoHora').value = String(agora.getHours()).padStart(2,'0')+':'+String(agora.getMinutes()).padStart(2,'0');
+  document.getElementById('eventoTipo').selectedIndex = 0;
+  document.getElementById('eventoDescricao').value = '';
+  document.getElementById('eventoCobrar').checked = true;
+  const cv = document.getElementById('eventoValor'); cv.value=''; delete cv.dataset.editado;
+  cv.oninput = ()=>{ cv.dataset.editado = '1'; };
+  aoTrocarTipoEvento();
+  openModal('modal-novo-evento');
+}
+function salvarEvento(){
+  const id = window._currentFichaId;
+  const h = horses[id];
+  if(!h) return;
+  const tipo = document.getElementById('eventoTipo').value;
+  const data = document.getElementById('eventoData').value;
+  const hora = document.getElementById('eventoHora').value;
+  const desc = document.getElementById('eventoDescricao').value.trim();
+  const resp = document.getElementById('eventoResponsavel').value;
+  const cobrar = document.getElementById('eventoCobrar').checked;
+  const valor = Math.max(0, parseFloat(document.getElementById('eventoValor').value||'0'));
+  if(!data || !hora){ toast('Informe data e hora do evento'); return; }
+
+  const retro = (data !== Fmt.dataISO(new Date()));
+  h.timeline.unshift({
+    hora: hora,
+    tipo: 'soft',
+    titulo: tipo + (desc ? ' — ' + desc : ''),
+    detalhe: 'Registrado por '+resp+' · '+Fmt.data(data)+' às '+hora
+             + (retro ? ' · lançamento retroativo' : '')
+             + (cobrar && valor>0 ? ' · '+fmtMoney(valor)+' na conta' : '')
+  });
+
+  if(cobrar && valor>0){
+    if(!h.conta) h.conta = { saldo:'0,00', devedor:'0,00', pago:'0,00', ticket:'0,00' };
+    h.conta.saldo = formatMoneyBR(parseMoneyBR(h.conta.saldo) + valor);
+    h.conta.devedor = formatMoneyBR(parseMoneyBR(h.conta.devedor) + valor);
+  }
+  openFicha(id);
+  closeModal('modal-novo-evento');
+  toast('Evento registrado'+(retro?' (retroativo)':'')+(cobrar && valor>0 ? ' — '+fmtMoney(valor)+' lançado na conta de '+h.name : ''));
+}
+
+function abrirEditarEntrada(){
+  const h = horses[window._currentFichaId];
+  if(!h) return;
+  document.getElementById('entradaAnimalLabel').innerHTML = '<b>'+h.name+'</b> · internado há '+(h.duracao||'—');
+  const base = h.entrada ? new Date(h.entrada) : new Date();
+  document.getElementById('entradaData').value = Fmt.dataISO(base);
+  document.getElementById('entradaHora').value = String(base.getHours()).padStart(2,'0')+':'+String(base.getMinutes()).padStart(2,'0');
+  openModal('modal-editar-entrada');
+}
+function salvarEntrada(){
+  const id = window._currentFichaId;
+  const h = horses[id];
+  const data = document.getElementById('entradaData').value;
+  const hora = document.getElementById('entradaHora').value || '00:00';
+  if(!h || !data){ toast('Informe a data de entrada'); return; }
+  const dt = new Date(data+'T'+hora+':00');
+  if(dt > new Date()){ toast('A entrada não pode ser no futuro'); return; }
+  h.entrada = dt.toISOString();
+  const ms = Date.now() - dt.getTime();
+  const dias = Math.floor(ms/86400000);
+  const horas = Math.floor((ms%86400000)/3600000);
+  h.duracao = (dias>0 ? dias+(dias>1?' dias':' dia') : '') + (dias>0&&horas>0?' ':'') + (horas>0? horas+(horas>1?' horas':' hora') : (dias>0?'':'menos de 1 hora'));
+  openFicha(id);
+  closeModal('modal-editar-entrada');
+  toast('Entrada ajustada para '+Fmt.data(data)+' às '+hora+' — tempo internado e diárias recalculados');
+}
+
+
+// ================= TUTORES & PROPRIETÁRIOS =================
+const pessoasData = [
+  { id:'p1', nome:'Oscar Junqueira', cpf:'086.883.089-50', rg:'', fone:'(44) 99731-6035', fone2:'', email:'oscar@haras.com.br',
+    cep:'87203-020', endereco:'Rua Primavera, 160', bairro:'Residencial Verde', cidade:'Cianorte', uf:'PR',
+    papel:'ambos', nascimento:'', profissao:'Criador', obs:'', naoEnviar:false },
+  { id:'p2', nome:'Layane Ferreira', cpf:'', rg:'', fone:'(44) 99812-4477', fone2:'', email:'',
+    cep:'', endereco:'', bairro:'', cidade:'Maringá', uf:'PR', papel:'responsavel', nascimento:'', profissao:'Treinadora', obs:'', naoEnviar:false },
+  { id:'p3', nome:'Andressa Kasprowicz Barros', cpf:'', rg:'', fone:'(44) 99155-2020', fone2:'', email:'',
+    cep:'', endereco:'', bairro:'', cidade:'Cianorte', uf:'PR', papel:'responsavel', nascimento:'', profissao:'Tratadora', obs:'', naoEnviar:false },
+  { id:'p4', nome:'Diego Protz', cpf:'', rg:'', fone:'(45) 99640-1188', fone2:'', email:'',
+    cep:'', endereco:'', bairro:'', cidade:'Cascavel', uf:'PR', papel:'proprietario', nascimento:'', profissao:'', obs:'', naoEnviar:false },
+  { id:'p5', nome:'Eduardo Lugli', cpf:'', rg:'', fone:'(44) 99700-3311', fone2:'', email:'',
+    cep:'', endereco:'', bairro:'', cidade:'Umuarama', uf:'PR', papel:'ambos', nascimento:'', profissao:'', obs:'', naoEnviar:false },
+];
+const papelLabel = {responsavel:'Responsável', proprietario:'Proprietário', ambos:'Prop. e responsável'};
+let tutoresFiltro = 'todos';
+function animaisDaPessoa(nome){
+  return Object.values(horses).filter(h=>!h.alta && h.tutor && h.tutor.toLowerCase().startsWith(nome.split(' ')[0].toLowerCase())).length;
+}
+function filtrarTutores(el, key){
+  el.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  tutoresFiltro = key;
+  renderTutores();
+}
+function renderTutores(){
+  const body = document.getElementById('tutoresTable');
+  if(!body) return;
+  const q = (document.getElementById('tutoresBusca')?.value||'').toLowerCase();
+  let itens = pessoasData.filter(p=>{
+    if(tutoresFiltro==='responsavel' && !['responsavel','ambos'].includes(p.papel)) return false;
+    if(tutoresFiltro==='proprietario' && !['proprietario','ambos'].includes(p.papel)) return false;
+    if(!q) return true;
+    return [p.nome,p.cpf,p.cidade,p.fone].join(' ').toLowerCase().includes(q);
+  });
+  if(itens.length===0){
+    body.innerHTML = linhaVazia(7,'Nenhuma pessoa encontrada','Ajuste a busca ou cadastre uma nova pessoa.','<button class="btn btn-soft btn-sm" onclick="abrirNovaPessoa()">+ Nova pessoa</button>');
+    renderTutoresStats(); return;
+  }
+  body.innerHTML = itens.map(p=>{
+    const n = animaisDaPessoa(p.nome);
+    const incompleto = !p.cpf || !p.endereco;
+    return '<tr class="row-hover">'
+      + '<td><b>'+p.nome+'</b>'+(incompleto?' <span class="tag tag-warn" style="font-size:9.5px" title="Faltam CPF ou endereço">incompleto</span>':'')
+        + (p.profissao?'<div class="faint" style="font-size:11px">'+p.profissao+'</div>':'')+'</td>'
+      + '<td class="mono">'+(p.cpf||'<span class="faint">—</span>')+'</td>'
+      + '<td class="mono">'+(p.fone||'—')+(p.email?'<div class="faint" style="font-size:10.5px">'+p.email+'</div>':'')+'</td>'
+      + '<td>'+(p.cidade?p.cidade+(p.uf?' · '+p.uf:''):'<span class="faint">—</span>')+'</td>'
+      + '<td><span class="tag tag-soft">'+papelLabel[p.papel]+'</span></td>'
+      + '<td class="mono">'+(n>0?n:'<span class="faint">0</span>')+'</td>'
+      + '<td><button class="btn-sm btn-soft" style="border-radius:8px" onclick="abrirPessoa(\''+p.id+'\')">Editar</button></td></tr>';
+  }).join('');
+  renderTutoresStats();
+}
+function renderTutoresStats(){
+  const wrap = document.getElementById('tutoresStatsRow');
+  if(!wrap) return;
+  const total = pessoasData.length;
+  const resp = pessoasData.filter(p=>['responsavel','ambos'].includes(p.papel)).length;
+  const prop = pessoasData.filter(p=>['proprietario','ambos'].includes(p.papel)).length;
+  const incompletos = pessoasData.filter(p=>!p.cpf || !p.endereco).length;
+  wrap.innerHTML =
+      '<div class="stat"><div class="n">'+total+'</div><div class="l">Pessoas cadastradas</div></div>'
+    + '<div class="stat"><div class="n">'+resp+'</div><div class="l">Responsáveis</div></div>'
+    + '<div class="stat"><div class="n">'+prop+'</div><div class="l">Proprietários</div></div>'
+    + '<div class="stat'+(incompletos>0?' warn':'')+'"><div class="n">'+incompletos+'</div><div class="l">Cadastros incompletos</div></div>';
+}
+const camposPessoa = ['Nome','Cpf','Rg','Fone','Fone2','Email','Cep','Endereco','Bairro','Cidade','Uf','Papel','Nascimento','Profissao','Obs'];
+function abrirNovaPessoa(){
+  window._pessoaEdit = null;
+  document.getElementById('pessoaTitulo').textContent = 'Nova pessoa';
+  camposPessoa.forEach(k=>{ const el=document.getElementById('pessoa'+k); if(el) el.value=''; });
+  document.getElementById('pessoaPapel').value='responsavel';
+  document.getElementById('pessoaNaoEnviar').checked=false;
+  openModal('modal-pessoa');
+}
+function abrirPessoa(id){
+  const p = pessoasData.find(x=>x.id===id);
+  if(!p) return;
+  window._pessoaEdit = id;
+  document.getElementById('pessoaTitulo').textContent = p.nome;
+  const mapa = {Nome:'nome',Cpf:'cpf',Rg:'rg',Fone:'fone',Fone2:'fone2',Email:'email',Cep:'cep',Endereco:'endereco',Bairro:'bairro',Cidade:'cidade',Uf:'uf',Papel:'papel',Nascimento:'nascimento',Profissao:'profissao',Obs:'obs'};
+  Object.entries(mapa).forEach(([k,v])=>{ const el=document.getElementById('pessoa'+k); if(el) el.value = p[v]||''; });
+  document.getElementById('pessoaNaoEnviar').checked = !!p.naoEnviar;
+  openModal('modal-pessoa');
+}
+function salvarPessoa(){
+  const g = k => (document.getElementById('pessoa'+k)?.value||'').trim();
+  const nome = g('Nome'), fone = g('Fone');
+  if(!nome){ toast('Informe o nome completo'); return; }
+  if(!fone){ toast('Informe o telefone de contato'); return; }
+  const dados = { nome, cpf:g('Cpf'), rg:g('Rg'), fone, fone2:g('Fone2'), email:g('Email'),
+    cep:g('Cep'), endereco:g('Endereco'), bairro:g('Bairro'), cidade:g('Cidade'), uf:g('Uf'),
+    papel:g('Papel')||'responsavel', nascimento:g('Nascimento'), profissao:g('Profissao'), obs:g('Obs'),
+    naoEnviar: document.getElementById('pessoaNaoEnviar').checked };
+  if(window._pessoaEdit){
+    Object.assign(pessoasData.find(x=>x.id===window._pessoaEdit), dados);
+    toast(nome+' atualizado');
+  } else {
+    pessoasData.push(Object.assign({id:'p_'+Date.now()}, dados));
+    toast(nome+' cadastrado');
+  }
+  window._pessoaEdit = null;
+  renderTutores();
+  closeModal('modal-pessoa');
+}
+
+// ================= GESTÃO DE EQUIPE =================
+const modulosSistema = [
+  {id:'baias',   nome:'Mapa de Baias'},
+  {id:'execucao',nome:'Mapa de Execução'},
+  {id:'prescricao',nome:'Prescrição'},
+  {id:'exames',  nome:'Exames'},
+  {id:'farmacia',nome:'Farmácia & Estoque'},
+  {id:'compras', nome:'Pagamentos'},
+  {id:'receber', nome:'Recebimentos'},
+  {id:'relatorios',nome:'Relatórios'},
+  {id:'equipe',  nome:'Gestão de Equipe'},
+];
+// true = acesso total · 'parcial' = acesso restrito · false = sem acesso
+const perfisAcesso = {
+  admin:      { nome:'Administrador', desc:'Acesso total ao sistema',
+    acessos:{baias:true,execucao:true,prescricao:true,exames:true,farmacia:true,compras:true,receber:true,relatorios:true,equipe:true} },
+  secretaria: { nome:'Secretaria', desc:'Rotina administrativa e farmácia — sem recebimentos',
+    acessos:{baias:true,execucao:true,prescricao:false,exames:true,farmacia:true,compras:true,receber:false,relatorios:false,equipe:false} },
+  laboratorio:{ nome:'Laboratório', desc:'Só anexa laudo de exames — sem acesso clínico ou financeiro',
+    acessos:{baias:false,execucao:false,prescricao:false,exames:'parcial',farmacia:false,compras:false,receber:false,relatorios:false,equipe:false} },
+  veterinario:{ nome:'Veterinário', desc:'Clínico completo — leitura da farmácia',
+    acessos:{baias:true,execucao:true,prescricao:true,exames:true,farmacia:'parcial',compras:false,receber:false,relatorios:false,equipe:false} },
+  residente:  { nome:'Residente', desc:'Rotina clínica — sem prescrever, só exame físico',
+    acessos:{baias:true,execucao:'parcial',prescricao:false,exames:true,farmacia:false,compras:false,receber:false,relatorios:false,equipe:false} },
+};
+const equipeData = [
+  { id:'u1', nome:'Rodrigo Rolim',    email:'rodrigo@harasex.com.br', funcao:'admin',      ativo:true },
+  { id:'u2', nome:'Elaine Moretti',   email:'elaine@harasex.com.br',  funcao:'admin',      ativo:true },
+  { id:'u3', nome:'Janaina Prado',    email:'janaina@harasex.com.br', funcao:'secretaria', ativo:true },
+  { id:'u4', nome:'Luiz Mello',       email:'luiz@harasex.com.br',    funcao:'residente',  ativo:true },
+  { id:'u5', nome:'Andressa Barros',  email:'andressa@harasex.com.br',funcao:'residente',  ativo:false },
+  { id:'u6', nome:'Lab Diagnóstico Equino', email:'lab@diagnosticoequino.com.br', funcao:'laboratorio', ativo:true },
+];
+function iniciais(n){ return n.split(' ').filter(Boolean).slice(0,2).map(p=>p[0]).join('').toUpperCase(); }
+function contarAcessos(f){
+  const a = perfisAcesso[f].acessos;
+  return Object.values(a).filter(v=>v===true||v==='parcial').length;
+}
+function renderEquipe(){
+  const body = document.getElementById('equipeTable');
+  if(!body) return;
+  body.innerHTML = equipeData.map(m=>{
+    const p = perfisAcesso[m.funcao];
+    const opts = Object.keys(perfisAcesso).map(k=>'<option value="'+k+'"'+(k===m.funcao?' selected':'')+'>'+perfisAcesso[k].nome+'</option>').join('');
+    return '<tr class="row-hover"'+(m.ativo?'':' style="opacity:.55"')+'>'
+      + '<td><div class="flex gap8" style="align-items:center"><div class="avatar" style="width:32px;height:32px;font-size:11px">'+iniciais(m.nome)+'</div>'
+        + '<div><b>'+m.nome+'</b><div class="faint" style="font-size:11px">'+m.email+'</div></div></div></td>'
+      + '<td><select onchange="alterarFuncao(\''+m.id+'\',this.value)" style="border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 9px;font-size:12.5px;color:var(--ink)">'+opts+'</select>'
+        + '<div class="faint" style="font-size:10.5px;margin-top:3px">'+p.desc+'</div></td>'
+      + '<td class="mono">'+contarAcessos(m.funcao)+' de '+modulosSistema.length+'</td>'
+      + '<td>'+(m.ativo?'<span class="tag tag-good">ativo</span>':'<span class="tag tag-soft">inativo</span>')+'</td>'
+      + '<td style="white-space:nowrap"><button class="btn-sm btn-soft" style="border-radius:8px" onclick="alternarAtivo(\''+m.id+'\')">'+(m.ativo?'Desativar':'Reativar')+'</button></td></tr>';
+  }).join('');
+  renderMatriz();
+}
+function renderMatriz(){
+  const head = document.getElementById('matrizHead');
+  const body = document.getElementById('matrizBody');
+  if(!head||!body) return;
+  const funcoes = Object.keys(perfisAcesso);
+  head.innerHTML = '<th>Módulo</th>' + funcoes.map(f=>'<th style="text-align:center">'+perfisAcesso[f].nome+'</th>').join('');
+  body.innerHTML = modulosSistema.map(mod=>{
+    return '<tr><td><b>'+mod.nome+'</b></td>' + funcoes.map(f=>{
+      const v = perfisAcesso[f].acessos[mod.id];
+      const bloqueado = (f==='admin');
+      const icone = v===true
+        ? '<span style="color:var(--good);font-weight:700">✓</span>'
+        : (v==='parcial' ? '<span class="tag tag-warn" style="font-size:9.5px">parcial</span>' : '<span class="faint">—</span>');
+      return '<td style="text-align:center">'+(bloqueado
+        ? '<span title="O administrador tem acesso total e não pode ser restringido">'+icone+'</span>'
+        : '<button class="icon-btn" style="width:30px;height:30px" title="Alternar acesso" onclick="alternarPrivilegio(\''+f+'\',\''+mod.id+'\')">'+icone+'</button>')+'</td>';
+    }).join('') + '</tr>';
+  }).join('');
+}
+function alternarPrivilegio(funcao, modulo){
+  const a = perfisAcesso[funcao].acessos;
+  a[modulo] = a[modulo]===true ? false : (a[modulo]===false ? 'parcial' : true);
+  renderEquipe();
+  const estado = a[modulo]===true ? 'liberado' : (a[modulo]==='parcial' ? 'parcial' : 'bloqueado');
+  toast(perfisAcesso[funcao].nome+' · '+modulosSistema.find(m=>m.id===modulo).nome+': '+estado);
+}
+function alterarFuncao(id, funcao){
+  const m = equipeData.find(x=>x.id===id);
+  if(!m) return;
+  m.funcao = funcao;
+  renderEquipe();
+  toast(m.nome+' agora é '+perfisAcesso[funcao].nome);
+}
+function alternarAtivo(id){
+  const m = equipeData.find(x=>x.id===id);
+  if(!m) return;
+  if(m.ativo){
+    confirmarAcao({titulo:'Desativar acesso', mensagem:'<b>'+m.nome+'</b> perderá o acesso ao sistema. O histórico de ações continua registrado.',
+      confirmar:'Desativar', perigo:true, onConfirm:()=>{ m.ativo=false; renderEquipe(); toast(m.nome+' desativado'); }});
+  } else { m.ativo=true; renderEquipe(); toast(m.nome+' reativado'); }
+}
+function abrirNovoMembro(){
+  pedirTexto({titulo:'Novo membro', label:'Nome completo', placeholder:'Ex.: Maria Souza', onConfirm:(nome)=>{
+    equipeData.push({id:'u_'+Date.now(), nome, email:nome.toLowerCase().replace(/[^a-z]+/g,'.')+'@harasex.com.br', funcao:'residente', ativo:true});
+    renderEquipe();
+    toast(nome+' adicionado como Residente — ajuste a função se necessário');
+  }});
+}
+
+// ================= RELATÓRIOS =================
+// Consumo real: alimentado pelas baixas de estoque do sistema
+const movimentosEstoque = [
+  {produtoId:'cef', qtd:14, origem:'execucao'},
+  {produtoId:'rin', qtd:11, origem:'execucao'},
+  {produtoId:'flu', qtd:8,  origem:'execucao'},
+  {produtoId:'gaz', qtd:22, origem:'checklist'},
+  {produtoId:'luv', qtd:16, origem:'checklist'},
+  {produtoId:'sut', qtd:6,  origem:'checklist'},
+  {produtoId:'xil', qtd:5,  origem:'protocolo'},
+  {produtoId:'bio', qtd:4,  origem:'execucao'},
+  {produtoId:'ant', qtd:7,  origem:'checklist'},
+];
+function registrarMovimento(produtoId, qtd, origem){
+  if(!produtoId) return;
+  movimentosEstoque.push({produtoId, qtd:qtd||1, origem:origem||'execucao'});
+}
+function barraHtml(label, valor, max, cor, extra){
+  const pct = max>0 ? Math.round(valor/max*100) : 0;
+  return '<div style="margin-bottom:11px">'
+    + '<div class="flex between" style="font-size:12.5px;margin-bottom:3px"><span>'+label+(extra?' <span class="faint">'+extra+'</span>':'')+'</span>'
+    + '<span class="mono"><b>'+fmtMoney(valor)+'</b></span></div>'
+    + '<div style="height:8px;border-radius:5px;background:var(--surface-alt);overflow:hidden">'
+    + '<div style="height:100%;width:'+pct+'%;background:'+cor+'"></div></div></div>';
+}
+function renderRelatorios(){
+  if(!document.getElementById('relStatsRow')) return;
+  const totalPagar = pagamentosData.filter(p=>p.status==='pendente').reduce((s,p)=>s+p.valor,0);
+  const totalPago  = pagamentosData.filter(p=>p.status==='pago').reduce((s,p)=>s+p.valor,0);
+  const receber    = Object.keys(horses).reduce((s,k)=>s+contaDoAnimal(k).aberto,0);
+  const recebido   = Object.keys(horses).reduce((s,k)=>s+contaDoAnimal(k).pago,0);
+
+  document.getElementById('relStatsRow').innerHTML =
+      '<div class="stat"><div class="n">'+fmtMoney(totalPago)+'</div><div class="l">Pago no período</div></div>'
+    + '<div class="stat warn"><div class="n">'+fmtMoney(totalPagar)+'</div><div class="l">A pagar</div></div>'
+    + '<div class="stat"><div class="n">'+fmtMoney(recebido)+'</div><div class="l">Recebido</div></div>'
+    + '<div class="stat'+(receber>0?' bad':'')+'"><div class="n">'+fmtMoney(receber)+'</div><div class="l">A receber</div></div>';
+
+  // gastos por categoria
+  const porCat = {};
+  pagamentosData.forEach(p=>{ porCat[p.categoria]=(porCat[p.categoria]||0)+p.valor; });
+  const cats = Object.entries(porCat).sort((a,b)=>b[1]-a[1]);
+  const maxCat = cats.length?cats[0][1]:1;
+  document.getElementById('relGastosCategoria').innerHTML =
+    cats.length ? cats.map(([k,v])=>barraHtml(k,v,maxCat,'var(--accent)')).join('')
+                : '<p class="faint" style="font-size:13px;margin:0">Sem lançamentos no período.</p>';
+
+  // formas de pagamento (pagas)
+  const porForma = {};
+  pagamentosData.filter(p=>p.status==='pago').forEach(p=>{ porForma[p.forma]=(porForma[p.forma]||0)+p.valor; });
+  const formas = Object.entries(porForma).sort((a,b)=>b[1]-a[1]);
+  const maxF = formas.length?formas[0][1]:1;
+  document.getElementById('relFormas').innerHTML =
+    formas.length ? formas.map(([k,v])=>barraHtml(k,v,maxF,'var(--blue)')).join('')
+                  : '<p class="faint" style="font-size:13px;margin:0">Nenhuma conta paga ainda.</p>';
+
+  // exames internos x externos
+  let interno=0, externo=0, pend=0;
+  examesData.forEach(g=>g.exams.forEach(e=>{
+    if((e.local||'interno')==='externo') externo++; else interno++;
+    if(e.status==='aguardando') pend++;
+  }));
+  const totEx = interno+externo || 1;
+  document.getElementById('relExames').innerHTML =
+      '<div class="flex" style="gap:8px;margin-bottom:12px">'
+    + '<div style="flex:'+Math.max(interno,1)+';text-align:center"><div style="height:56px;background:var(--good);border-radius:8px 8px 0 0"></div><div class="mono" style="font-size:13px;font-weight:700;margin-top:6px">'+interno+'</div><div class="faint" style="font-size:11px">Internos</div></div>'
+    + '<div style="flex:'+Math.max(externo,1)+';text-align:center"><div style="height:56px;background:var(--blue);border-radius:8px 8px 0 0"></div><div class="mono" style="font-size:13px;font-weight:700;margin-top:6px">'+externo+'</div><div class="faint" style="font-size:11px">Externos</div></div>'
+    + '</div>'
+    + '<p class="hint" style="margin:0">'+Math.round(interno/totEx*100)+'% realizados na própria estrutura · <b>'+pend+'</b> aguardando laudo.</p>';
+
+  // pago x a pagar por mês
+  const hoje = Fmt.hoje(); const meses=[];
+  for(let k=0;k<3;k++){
+    const d=new Date(hoje.getFullYear(), hoje.getMonth()+k, 1);
+    const noMes = p=>{const v=new Date(p.vencimento+'T00:00:00');return v.getMonth()===d.getMonth()&&v.getFullYear()===d.getFullYear();};
+    meses.push({
+      nome: d.toLocaleDateString('pt-BR',{month:'short'}).replace('.',''),
+      pago: pagamentosData.filter(p=>p.status==='pago'&&noMes(p)).reduce((s,p)=>s+p.valor,0),
+      aberto: pagamentosData.filter(p=>p.status==='pendente'&&noMes(p)).reduce((s,p)=>s+p.valor,0),
+    });
+  }
+  const maxM = Math.max(...meses.map(m=>m.pago+m.aberto),1);
+  document.getElementById('relMeses').innerHTML = meses.map(m=>
+    '<div style="flex:1;text-align:center">'
+    + '<div style="height:90px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px">'
+    + '<div style="background:var(--warn);border-radius:4px 4px 0 0;height:'+Math.round(m.aberto/maxM*80)+'px" title="A pagar"></div>'
+    + '<div style="background:var(--good);border-radius:0 0 4px 4px;height:'+Math.round(m.pago/maxM*80)+'px" title="Pago"></div>'
+    + '</div><div class="faint" style="font-size:11px;margin-top:6px;text-transform:capitalize">'+m.nome+'</div></div>').join('')
+    + '<div style="flex:none;font-size:11px;color:var(--ink-soft);padding-left:6px"><div><span style="display:inline-block;width:9px;height:9px;background:var(--warn);border-radius:2px"></span> a pagar</div><div style="margin-top:4px"><span style="display:inline-block;width:9px;height:9px;background:var(--good);border-radius:2px"></span> pago</div></div>';
+
+  // consumo
+  const agreg = {};
+  movimentosEstoque.forEach(m=>{
+    if(!agreg[m.produtoId]) agreg[m.produtoId]={qtd:0,n:0};
+    agreg[m.produtoId].qtd += m.qtd; agreg[m.produtoId].n++;
+  });
+  const linhas = Object.entries(agreg).map(([pid,d])=>{
+    const prod = estoqueData.find(i=>i.id===pid);
+    return prod ? {prod, qtd:d.qtd, n:d.n, custo:d.qtd*prod.custo} : null;
+  }).filter(Boolean).sort((a,b)=>b.custo-a.custo);
+  document.getElementById('relConsumo').innerHTML = linhas.length ? linhas.map(l=>
+    '<tr class="row-hover"><td><b>'+l.prod.nome+'</b></td><td>'+l.prod.categoria+'</td>'
+    + '<td class="mono">'+l.n+'</td>'
+    + '<td class="mono">'+l.qtd+' '+(l.prod.unidade||'un.')+'</td>'
+    + '<td class="mono"><b>'+fmtMoney(l.custo)+'</b></td></tr>').join('')
+    : linhaVazia(5,'Sem consumo registrado','As baixas de estoque aparecem aqui conforme o hospital opera.');
+}
 
 // ---------- INICIALIZAÇÃO E ACESSIBILIDADE GLOBAL ----------
 renderBaias();
@@ -3326,6 +4197,16 @@ function salvarLaudo(){
 
 // ---------- CATÁLOGO DE TIPOS DE EXAME (compartilhado entre chips e o formulário) ----------
 const examTypesData = ['Bacteriológico','Bioquímico','Endoscopia','Hemograma','Parasitológico de Fezes','Parasitológico de Pele','Raio-X'];
+// catálogo com valor e local — alimenta o lançamento na conta e o relatório interno x externo
+const examCatalogo = {
+  'Bacteriológico':{valor:210, local:'externo', lab:'Lab Diagnóstico Equino'},
+  'Bioquímico':{valor:180, local:'interno', lab:''},
+  'Endoscopia':{valor:450, local:'interno', lab:''},
+  'Hemograma':{valor:120, local:'interno', lab:''},
+  'Parasitológico de Fezes':{valor:95, local:'interno', lab:''},
+  'Parasitológico de Pele':{valor:110, local:'externo', lab:'Lab Diagnóstico Equino'},
+  'Raio-X':{valor:280, local:'interno', lab:''},
+};
 function renderExamTypeChips(){
   const wrap = document.getElementById('examTypeChips');
   if(!wrap) return;
@@ -3373,11 +4254,16 @@ function abrirNovoTipoExame(){
 }
 function salvarNovoTipoExame(){
   const nome = document.getElementById('novoTipoExameNome').value.trim();
+  const valor = Math.max(0, parseFloat(document.getElementById('novoTipoExameValor').value||'0'));
+  const local = document.getElementById('novoTipoExameLocal').value;
+  const lab = document.getElementById('novoTipoExameLab').value.trim();
   if(!nome){ toast('Digite o nome do exame'); return; }
   if(examTypesData.includes(nome)){ toast('Esse exame já está cadastrado'); closeModal('modal-novo-tipo-exame'); return; }
   registrarNovoTipoExame(nome);
+  examCatalogo[nome] = {valor, local, lab};
+  ['novoTipoExameNome','novoTipoExameValor','novoTipoExameLab'].forEach(id=>document.getElementById(id).value='');
   closeModal('modal-novo-tipo-exame');
-  toast('"'+nome+'" incluído — já disponível na lista de exames');
+  toast('"'+nome+'" cadastrado'+(valor>0?' — '+fmtMoney(valor):'')+' · '+(local==='externo'?'externo':'interno'));
 }
 
 // ---------- TERMOS DE CONSENTIMENTO (Documentos) ----------
